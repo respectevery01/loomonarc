@@ -252,6 +252,7 @@ import Base from '../layouts/Base.astro';
             st.phase = 'switch';
             badge.hidden = false;
             badge.textContent = cid === 1 ? 'Ethereum gas will be brutal on launch day' : 'Wrong network';
+            $('connectBtn').textContent = st.addr.slice(0, 6) + '…' + st.addr.slice(-4);
             $('widget').hidden = false;
             $('actionBtn').disabled = false;
             $('actionBtn').textContent = 'Switch to Base';
