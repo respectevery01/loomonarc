@@ -13,7 +13,7 @@ import Base from '../layouts/Base.astro';
         intermediary custody. We take a flat 1%, shown before you sign.
       </p>
       <div class="hero-cta">
-        <a class="btn" href="#enter">Bridge now <span class="arr">→</span></a>
+        <a class="btn" href="/bridge/">Bridge now <span class="arr">→</span></a>
         <a class="btn btn-soft" href="/security">How it stays safe</a>
       </div>
     </section>
@@ -23,71 +23,15 @@ import Base from '../layouts/Base.astro';
       <h2>Small money moves first.</h2>
       <p class="lead">
         Day one on a new chain is for exploring, not for moving your savings.
-        Presets keep the decision fast. If you want zero fee and don't mind more steps,
-        <a href="https://bridge.usdc.com" rel="noopener" target="_blank">Circle's official bridge</a> is always there.
+        One page, two signatures, native USDC on Arc.
       </p>
-
-      <div class="panel" id="bridgePanel">
-        <div class="wtop" id="wtop">
-          <button class="chip wbtn" id="connectBtn">Connect wallet</button>
-          <span class="netbadge" id="netBadge" hidden></span>
-          <span class="bal" id="balLine" hidden></span>
-        </div>
-
-        <div id="widget" hidden>
-          <div class="chips" id="chips">
-            <button class="chip" data-usd="5">$5</button>
-            <button class="chip is-on" data-usd="10">$10</button>
-            <button class="chip" data-usd="25">$25</button>
-            <button class="chip" data-usd="50">$50</button>
-            <input id="customAmt" class="chip chip-input" type="number" inputmode="decimal" min="0.5" step="0.5" placeholder="Custom $" aria-label="Custom amount in USDC" />
-          </div>
-
-          <div class="route">
-            <div class="route-line">
-              <span class="dot from"></span>
-              <div>
-                <strong>You send</strong>
-                <p id="sendLine">$10 USDC from your wallet</p>
-              </div>
-            </div>
-            <div class="route-line">
-              <span class="dot to"></span>
-              <div>
-                <strong>You receive on Arc</strong>
-                <p id="recvLine">≈ $9.80 native USDC, minted by Circle</p>
-              </div>
-            </div>
-            <div class="feegrid" id="feeGrid">
-              <span>Loom fee (1%)</span><b id="loomFee">$0.10</b>
-              <span>Circle network fee</span><b id="netFee">≤ $0.02</b>
-            </div>
-          </div>
-
-          <div class="go">
-            <button class="btn" id="actionBtn" disabled>Connect wallet</button>
-            <p class="tiny" id="feeLine">
-              One approval, one signature. Fee is taken inside the same transaction — funds never rest with Loom.
-            </p>
-          </div>
-        </div>
-
-        <div class="status" id="statusBox" hidden>
-          <p class="mono" id="statusText"></p>
-          <p class="tiny" id="statusLinks"></p>
-        </div>
-
-        <p class="tiny" id="noWallet" hidden>
-          No EVM wallet detected. Install MetaMask, Rabby or Brave Wallet — or use the
-          <a href="https://bridge.usdc.com" rel="noopener" target="_blank">official Circle bridge</a> directly.
-        </p>
+      <div class="hero-cta">
+        <a class="btn" href="/bridge/">Open the bridge <span class="arr">→</span></a>
+        <a class="btn btn-soft" href="/security/">Security model</a>
       </div>
-
       <div class="note">
-        Transfers run on Circle's CCTP v2 Forwarding Service — the same official
-        burn-and-mint channel the USDC Bridge uses. Loom adds a router contract that
-        routes your signature straight to Circle's contracts and takes 1% on the way.
-        Open source, verifiable on-chain: see the <a href="/security/">security page</a>.
+        Presets from $5, custom amounts from $0.50. Flat 1% fee, everything shown before you sign.
+        Prefer zero fee? <a href="https://bridge.usdc.com" rel="noopener" target="_blank">Circle's official bridge</a> is the same destination with more steps.
       </div>
     </section>
 
@@ -390,6 +334,11 @@ import Base from '../layouts/Base.astro';
     </script>
 
     <style is:global>
+    .hero { padding: 72px 0 8px; }
+    .hero .sub { font-size: 18px; color: var(--ink-2); max-width: 56ch; margin-top: 18px; }
+    .hero-cta { display: flex; gap: 12px; margin-top: 26px; flex-wrap: wrap; }
+    .lead { font-size: 15px; color: var(--ink-2); max-width: 62ch; margin-bottom: 16px; }
+    @media (max-width: 640px) { .hero { padding-top: 48px; } }
       .panel { background: #fff; border: 1px solid var(--line); border-radius: 14px; padding: 22px; margin: 22px 0; }
       .wtop { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; flex-wrap: wrap; }
       .netbadge { font-family: var(--mono); font-size: 12px; background: var(--accent-soft); color: var(--accent); padding: 4px 10px; border-radius: 999px; }

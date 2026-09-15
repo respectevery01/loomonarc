@@ -9,6 +9,9 @@
     "deploy": "astro build && wrangler pages deploy dist --project-name=loom"
   },
   "dependencies": {
-    "astro": "^5.0.0"
+    "@reown/appkit": "^1.8.23",
+    "@reown/appkit-adapter-ethers": "^1.8.23",
+    "astro": "^5.0.0",
+    "ethers": "^6.17.0"
   }
 }
