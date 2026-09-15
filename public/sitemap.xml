@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://loomonarc.xyz/</loc><changefreq>daily</changefreq></url>
-  <url><loc>https://loomonarc.xyz/solana-to-arc/<//loc></url>
-  <url><loc>https://loomonarc.xyz/ethereum-to-arc/<//loc></url>
-  <url><loc>https://loomonarc.xyz/security/<//loc></url>
+  <url><loc>https://loomonarc.xyz/solana-to-arc/</loc></url>
+  <url><loc>https://loomonarc.xyz/ethereum-to-arc/</loc></url>
+  <url><loc>https://loomonarc.xyz/security/</loc></url>
 </urlset>
