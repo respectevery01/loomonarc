@@ -9,7 +9,7 @@ import Base from '../layouts/Base.astro';
       <h1>One tap onto Arc.</h1>
       <p class="sub">
         Send USDC through Circle's official burn-and-mint channel and get native USDC
-        on Arc, right here. A dollar is enough to get in. No wrapped tokens, no
+        on Arc, right here — live on Base. A dollar is enough to get in. No wrapped tokens, no
         intermediary custody. We take a flat 1%, shown before you sign.
       </p>
       <div class="hero-cta">
@@ -96,7 +96,7 @@ import Base from '../layouts/Base.astro';
         <div class="step">
           <div>
             <h3>Connect your wallet</h3>
-            <p>Any EVM wallet on Ethereum or Base. Your address is also your Arc address — same format.</p>
+            <p>Any EVM wallet on Base. Your address is also your Arc address — same format. Ethereum works too, but launch-day gas there is its own tax — switching to Base costs seconds.</p>
           </div>
         </div>
         <div class="step">
@@ -162,7 +162,6 @@ import Base from '../layouts/Base.astro';
     (function () {
       var ARC_DOMAIN = 26;
       var CFG = {
-        1:       { name: 'Ethereum', domain: 0,  usdc: '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48', messenger: '0x28b5a0e9C621a5BadaA536219b3a228C8168cf5d', router: '', iris: 'https://iris-api.circle.com', ex: 'https://etherscan.io', arcex: '' },
         8453:    { name: 'Base',      domain: 6,  usdc: '0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913', messenger: '0x28b5a0e9C621a5BadaA536219b3a228C8168cf5d', router: '', iris: 'https://iris-api.circle.com', ex: 'https://basescan.org', arcex: '' },
         11155111:{ name: 'Sepolia',  domain: 0,  usdc: '0x1c7d4b196cb0c7b01d743fbc6116a902379c7238', messenger: '0x8fe6b999dc680ccfdd5bf7eb0974218be2542daa', router: '0x3625f66718dd3f2e14b8b337047b98af26f16d0c', iris: 'https://iris-api-sandbox.circle.com', ex: 'https://sepolia.etherscan.io', arcex: 'https://testnet.arcscan.app', test: true }
       };
@@ -228,6 +227,7 @@ import Base from '../layouts/Base.astro';
 
       function renderAction() {
         var btn = $('actionBtn');
+        if (st.phase === 'switch') { btn.textContent = 'Switch to Base'; btn.disabled = false; return; }
         if (!st.cfg) { btn.textContent = 'Connect wallet'; btn.disabled = true; return; }
         if (!st.cfg.router) { btn.textContent = 'Mainnet router goes live at launch'; btn.disabled = true; return; }
         if (st.bal < st.amount * 1e6) { btn.textContent = 'Not enough USDC' + (st.cfg.test ? ' (testnet)' : ''); btn.disabled = true; return; }
@@ -249,8 +249,13 @@ import Base from '../layouts/Base.astro';
             badge.textContent = st.cfg.name + (st.cfg.test ? ' · TESTNET' : '') + ' → Arc';
           } else {
             st.cfg = null;
+            st.phase = 'switch';
             badge.hidden = false;
-            badge.textContent = 'Unsupported chain';
+            badge.textContent = cid === 1 ? 'Ethereum gas will be brutal on launch day' : 'Wrong network';
+            $('widget').hidden = false;
+            $('actionBtn').disabled = false;
+            $('actionBtn').textContent = 'Switch to Base';
+            return;
           }
           $('connectBtn').textContent = st.addr.slice(0, 6) + '…' + st.addr.slice(-4);
           $('widget').hidden = false;
@@ -285,6 +290,11 @@ import Base from '../layouts/Base.astro';
       }
 
       async function doAction() {
+        if (st.phase === 'switch') {
+          try { await req('wallet_switchEthereumChain', [{ chainId: '0x2105' }]); }
+          catch (e) { setStatus('Could not switch network: ' + (e.message || e), ''); }
+          return;
+        }
         var c = st.cfg;
         if (!c || !c.router) return;
         var btn = $('actionBtn');
