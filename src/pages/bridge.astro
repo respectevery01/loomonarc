@@ -348,6 +348,8 @@ import Base from '../layouts/Base.astro';
         metadata: { name: 'Loom', description: 'Bridge USDC to Arc', url: 'https://loomonarc.xyz', icons: ['https://loomonarc.xyz/favicon.svg'] },
         themeMode: 'light',
         features: { analytics: false, email: false, socials: [] },
+        allWallets: 'HIDE',
+        excludedWalletIds: ['c57ca95b47569778a828d19178114f84db6ac205'],
       });
       let provider = null;
       window.__wallet = {
