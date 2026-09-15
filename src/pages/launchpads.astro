@@ -1,0 +1,130 @@
+---
+import Base from '../layouts/Base.astro';
+const live = [
+  ['Tolly', '@TollyLabs', 'The loudest name in day-one Arc trading. No bonding curve: at launch, the full token supply goes straight into a permanently locked USDC pool, so tokens are buyable from the first block. Ships a trading terminal, open-source contracts, and a fee split that favors creators (holders get a small cut). Many treat it as the Pons-style bet of Arc.'],
+  ['Warp', '@circlewarp', 'Classic pump mechanics: bonding curve first, migration to WarpDex at roughly $60–70k market cap. The pitch is Circle CCTP integration down the road, meaning USDC from other chains could flow in directly. 280+ tokens issued so far.'],
+  ['Archemist', '@Archemistdotfun', 'Lowest barrier: @ the bot on X and your token exists. High creator revenue share keeps issuance volume up, but a large share of volume is the platform token circulating. Good for watching the tape, not much depth yet.'],
+  ['ArcPad', '@arcpad_meme', 'Tokens launch directly on Uniswap V3 with no graduation step and permanently locked LP. Creators earn a sustainable USDC fee stream. Moderate volume, relatively clean mechanics.'],
+  ['Radar DEX', '@ArcDEXScan', 'Most launches by count, with markets, issuance and trading on one page. Numbers look strong but there are wash-trading disputes and claims that the fee page does not match the actual routing. Treat as a scanner, not a venue.'],
+];
+const upcoming = [
+  ['Aka', '@akadotfun', 'Hottest whitelist of the week, launchpad not yet live. Starts with its own DN404 NFT collection (4,444 total, half mintable by community). Plans to split fees between creators, holders and referrals, with a slice buying RWA backflow.'],
+  ['Minara', '@minarafun', 'Still on testnet. Circles rumor a Circle Ventures connection. Low fees, but creators take a large share of initial supply at open, so watch the first wave of selling.'],
+  ['Act', '@actfunxyz', 'Contracts already deployed. Issuance unlocks September 16, 09:00 UTC, platform token planned the same day. Community has flagged a retained owner emergency-withdraw permission. Verify the contract yourself before touching it.'],
+  ['Flutch', '@Flutchdotfun', 'Launching alongside Arc mainnet on the 16th. Aiming at an all-in-one page for launches, trading and later NFT/RWA. No platform token yet.'],
+  ['UBIfun', '@UBIdotFUN', 'Differentiating on Uniswap V4, fees shared with creators and holders. Very small footprint so far, more of a placeholder.'],
+];
+---
+<Base title="Arc launchpads: the day-one map" desc="Every launchpad live or launching on Arc at mainnet: Tolly, Warp, Archemist, ArcPad, Radar DEX, Aka, Minara, Act, Flutch, UBIfun. Mechanisms, risks, and the day-one safety checklist." path="launchpads">
+  <div class="wrap">
+
+    <section class="hero">
+      <p class="kicker">Arc mainnet · day-one map</p>
+      <h1>Launchpads on Arc.</h1>
+      <p class="sub">
+        You got USDC onto Arc. Now what. Here is the launchpad landscape as of
+        mainnet eve, compiled from community tracking. Verify everything against
+        official accounts before you touch it. This is a map, not a shopping list.
+      </p>
+    </section>
+
+    <section class="block">
+      <p class="kicker">Read this first</p>
+      <div class="warn">
+        <h2>Entry before mainnet is not the official lane.</h2>
+        <p>
+          Until public mainnet opens on September 16, the only way in is third-party
+          custodial bridges: your funds lock in someone else's vault and you hold
+          their receipt. Redemption depends entirely on the issuer honoring 1:1.
+          If you are already across, test a small redemption before adding size.
+          If you are not, waiting costs you hours, not days. Once mainnet opens,
+          use the official burn-and-mint channel instead. See
+          <a href="/solana-to-arc/">Solana to Arc</a> and
+          <a href="/ethereum-to-arc/">Ethereum to Arc</a>.
+        </p>
+        <p>
+          Two more day-one traps: bridged CRCL tokens are not NYSE shares and carry
+          no shareholder rights, and Arc-side USDC still trades at an OTC premium.
+          Do not size up on the theory that a premium must mean free money.
+        </p>
+      </div>
+    </section>
+
+    <section class="block">
+      <p class="kicker">Live now</p>
+      {live.map(([name, handle, desc]) => (
+        <div class="pad">
+          <div class="pad-head">
+            <h3>{name}</h3>
+            <span class="handle">{handle}</span>
+          </div>
+          <p>{desc}</p>
+        </div>
+      ))}
+    </section>
+
+    <section class="block">
+      <p class="kicker">Warming up</p>
+      {upcoming.map(([name, handle, desc]) => (
+        <div class="pad">
+          <div class="pad-head">
+            <h3>{name}</h3>
+            <span class="handle">{handle}</span>
+          </div>
+          <p>{desc}</p>
+        </div>
+      ))}
+    </section>
+
+    <section class="block">
+      <p class="kicker">Day-one checklist</p>
+      <div class="steps">
+        <div class="step">
+          <div>
+            <h3>Expect fake tickers, lots of them</h3>
+            <p>Same-name tokens will flood the minute mainnet opens. Start from the project's official X account and pinned links, not from a token search.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div>
+            <h3>Skip the trading bots</h3>
+            <p>Sniping bots on unfamiliar chains route through the wrong pools and eat slippage. Use the launchpad's own page, or a DEX UI you can read.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div>
+            <h3>Check owner powers in the contract</h3>
+            <p>At least one launchpad here is flagged for a retained emergency-withdraw permission. On day one of any chain, assume nothing is revoked until you checked.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div>
+            <h3>Keep it entry-size</h3>
+            <p>Everything on this page is weeks old at most. The $1–$25 mindset that got you onto Arc is the right one for the launchpads too.</p>
+          </div>
+        </div>
+      </div>
+      <div class="note">
+        Compiled from public community research (X: @Mulight and launchpad accounts), September 14–15, 2026.
+        Nothing here is financial advice or an endorsement. Projects this early change or vanish without notice.
+      </div>
+    </section>
+
+  </div>
+
+  <style>
+    .hero { padding: 72px 0 8px; }
+    .hero .sub { font-size: 18px; color: var(--ink-2); max-width: 58ch; margin-top: 18px; }
+    .warn { border: 1px solid var(--line); border-left: 3px solid #c0392b; border-radius: 0 12px 12px 0; background: #fff; padding: 20px 22px; max-width: 68ch; }
+    .warn h2 { font-size: 18px; margin-bottom: 10px; }
+    .warn p { font-size: 15px; color: var(--ink-2); margin-bottom: 10px; }
+    .warn p:last-child { margin-bottom: 0; }
+    .pad { padding: 18px 0; border-top: 1px solid var(--line); }
+    .pad:last-child { border-bottom: 1px solid var(--line); }
+    .pad-head { display: flex; align-items: baseline; gap: 12px; margin-bottom: 6px; }
+    .pad-head h3 { font-size: 17px; }
+    .handle { font-family: var(--mono); font-size: 12.5px; color: var(--accent); }
+    .pad p { font-size: 15px; color: var(--ink-2); max-width: 68ch; }
+    @media (max-width: 640px) { .hero { padding-top: 48px; } }
+  </style>
+</Base>

@@ -4,6 +4,7 @@
 
 Pages:
 - [Home](https://loomonarc.xyz/): preset amounts ($1/$5/$10/$25), one-tap entry to Arc
+- [Arc Launchpads](https://loomonarc.xyz/launchpads/): every launchpad live or launching at mainnet, mechanisms and day-one risks
 - [Solana to Arc](https://loomonarc.xyz/solana-to-arc/): move USDC from Solana to Arc, step by step
 - [Ethereum to Arc](https://loomonarc.xyz/ethereum-to-arc/): move USDC from Ethereum to Arc, step by step
 - [Security](https://loomonarc.xyz/security/): non-custodial model, verified contract addresses, open-source code
