@@ -111,6 +111,7 @@ const canonical = path ? `${site}/${path}/` : `${site}/`;
     .btn .arr { font-family: var(--mono); }
     .btn-soft { background: var(--accent-soft); color: var(--accent); }
     @media (max-width: 640px) {
+      nav.main a.sub { display: none; }
       .brand small { display: none; }
       .brand { gap: 8px; }
       nav.main { gap: 12px; font-size: 12.5px; white-space: nowrap; }
@@ -135,8 +136,8 @@ const canonical = path ? `${site}/${path}/` : `${site}/`;
       <nav class="main">
         <a href="/bridge/">Bridge</a>
         <a href="/launchpads/">Launchpads</a>
-        <a href="/solana-to-arc/">Solana</a>
-        <a href="/ethereum-to-arc/">Ethereum</a>
+        <a href="/solana-to-arc/" class="sub">Solana</a>
+        <a href="/ethereum-to-arc/" class="sub">Ethereum</a>
         <a href="/security/">Security</a>
       </nav>
     </div>
