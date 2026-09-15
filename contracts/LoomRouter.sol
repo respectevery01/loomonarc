@@ -38,6 +38,7 @@ contract LoomRouter {
 
     error BadAmount();
     error FeeTooHigh();
+    error BadRecipient();
 
     constructor(address _treasury, address _usdc, address _tokenMessenger, uint32 _destinationDomain, uint256 _feeBps) {
         treasury = _treasury;
@@ -52,7 +53,8 @@ contract LoomRouter {
     /// @param maxFee max CCTP forwarding fee in USDC base units, fetched from Circle's fee API
     function bridge(uint256 amount, bytes32 mintRecipient, uint256 maxFee) external {
         if (amount < MIN_AMOUNT) revert BadAmount();
-        if (maxFee > amount / 2) revert FeeTooHigh();
+        if (maxFee > amount / 10) revert FeeTooHigh(); // hard cap 10%: Circle's real fee is ~0.2%
+        if (mintRecipient == bytes32(0) || bytes12(mintRecipient) != bytes12(0)) revert BadRecipient();
 
         uint256 fee = (amount * feeBps) / 10_000;
         uint256 burn = amount - fee;
