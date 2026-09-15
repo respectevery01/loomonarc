@@ -40,6 +40,7 @@ import Base from '../layouts/Base.astro';
             <button class="chip is-on" data-usd="10">$10</button>
             <button class="chip" data-usd="25">$25</button>
             <button class="chip" data-usd="50">$50</button>
+            <input id="customAmt" class="chip chip-input" type="number" inputmode="decimal" min="0.5" step="0.5" placeholder="Custom $" aria-label="Custom amount in USDC" />
           </div>
 
           <div class="route">
@@ -231,6 +232,7 @@ import Base from '../layouts/Base.astro';
         if (!st.cfg) { btn.textContent = 'Connect wallet'; btn.disabled = true; return; }
         if (st.cfg.router && st.cfg.live === false) { btn.textContent = 'Opens with Arc mainnet — September 16'; btn.disabled = true; return; }
         if (!st.cfg.router) { btn.textContent = 'Mainnet router goes live at launch'; btn.disabled = true; return; }
+        if (st.amount < 0.5) { btn.textContent = 'Minimum $0.50'; btn.disabled = true; return; }
         if (st.bal < st.amount * 1e6) { btn.textContent = 'Not enough USDC' + (st.cfg.test ? ' (testnet)' : ''); btn.disabled = true; return; }
         if (st.allow < st.amount * 1e6) { btn.textContent = 'Step 1 — Approve USDC'; btn.disabled = false; st.phase = 'approve'; return; }
         btn.textContent = 'Step 2 — Bridge to Arc'; btn.disabled = false; st.phase = 'bridge';
@@ -355,13 +357,27 @@ import Base from '../layouts/Base.astro';
 
       // init
       var chips = document.querySelectorAll('#chips .chip');
+      var custom = $('customAmt');
       chips.forEach(function (ch) {
         ch.addEventListener('click', function () {
           chips.forEach(function (x) { x.classList.remove('is-on'); });
           ch.classList.add('is-on');
+          custom.value = '';
           st.amount = parseFloat(ch.getAttribute('data-usd'));
           renderAmount(); renderAction();
         });
+      });
+      custom.addEventListener('input', function () {
+        chips.forEach(function (x) { x.classList.remove('is-on'); });
+        var v = parseFloat(custom.value);
+        if (!isNaN(v) && v > 0) {
+          custom.classList.add('is-on');
+          st.amount = v;
+        } else {
+          custom.classList.remove('is-on');
+          st.amount = 0;
+        }
+        renderAmount(); renderAction();
       });
       $('connectBtn').addEventListener('click', connect);
       $('actionBtn').addEventListener('click', doAction);
@@ -381,6 +397,9 @@ import Base from '../layouts/Base.astro';
       .chips { display: flex; gap: 10px; margin-bottom: 18px; flex-wrap: wrap; }
       .chip { border: 1px solid var(--line); background: #fff; border-radius: 999px; padding: 9px 18px; font-size: 15px; font-weight: 600; color: var(--ink); cursor: pointer; }
       .chip.is-on { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+      .chip-input { width: 110px; text-align: center; font-family: var(--mono); font-weight: 500; }
+      .chip-input::-webkit-outer-spin-button, .chip-input::-webkit-inner-spin-button { -webkit-appearance: none; }
+      .chip-input[type=number] { -moz-appearance: textfield; appearance: textfield; }
       .wbtn { font-size: 13px; padding: 7px 14px; }
       .route { margin-bottom: 6px; }
       .route-line { display: flex; gap: 12px; padding: 10px 0; }
