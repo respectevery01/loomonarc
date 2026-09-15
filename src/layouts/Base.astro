@@ -117,6 +117,10 @@ const canonical = path ? `${site}/${path}/` : `${site}/`;
       header.site .wrap { padding: 0 18px; }
       footer.site .cols { gap: 24px; }
     }
+    @media (max-width: 348px) {
+      header.site .wrap { flex-wrap: wrap; height: auto; padding-top: 10px; padding-bottom: 10px; row-gap: 8px; }
+      nav.main { width: 100%; justify-content: space-between; }
+    }
   </style>
 </head>
 <body>
