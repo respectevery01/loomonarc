@@ -8,60 +8,85 @@ import Base from '../layouts/Base.astro';
       <p class="kicker">Arc mainnet · September 16</p>
       <h1>One tap onto Arc.</h1>
       <p class="sub">
-        Pick a small amount, send it through Circle's official burn-and-mint channel,
-        and get native USDC on Arc. A dollar is enough to get in. No wrapped tokens,
-        no intermediary custody, no fee from us.
+        Send USDC through Circle's official burn-and-mint channel and get native USDC
+        on Arc, right here. A dollar is enough to get in. No wrapped tokens, no
+        intermediary custody. We take a flat 1%, shown before you sign.
       </p>
       <div class="hero-cta">
-        <a class="btn" href="#enter">Pick your amount <span class="arr">→</span></a>
+        <a class="btn" href="#enter">Bridge now <span class="arr">→</span></a>
         <a class="btn btn-soft" href="/security">How it stays safe</a>
       </div>
     </section>
 
     <section class="block" id="enter">
-      <p class="kicker">Entry amounts</p>
+      <p class="kicker">Bridge</p>
       <h2>Small money moves first.</h2>
       <p class="lead">
         Day one on a new chain is for exploring, not for moving your savings.
-        Pick what you are comfortable with. Every amount goes through the same
-        official channel.
+        Presets keep the decision fast. If you want zero fee and don't mind more steps,
+        <a href="https://bridge.usdc.com" rel="noopener" target="_blank">Circle's official bridge</a> is always there.
       </p>
 
-      <div class="panel">
-        <div class="chips" id="chips">
-          <button class="chip" data-usd="1">$1</button>
-          <button class="chip" data-usd="5">$5</button>
-          <button class="chip is-on" data-usd="10">$10</button>
-          <button class="chip" data-usd="25">$25</button>
+      <div class="panel" id="bridgePanel">
+        <div class="wtop" id="wtop">
+          <button class="chip wbtn" id="connectBtn">Connect wallet</button>
+          <span class="netbadge" id="netBadge" hidden></span>
+          <span class="bal" id="balLine" hidden></span>
         </div>
-        <div class="route" id="route">
-          <div class="route-line">
-            <span class="dot from"></span>
-            <div>
-              <strong>You send</strong>
-              <p id="sendLine">$10 USDC from your own wallet (Solana or Ethereum)</p>
+
+        <div id="widget" hidden>
+          <div class="chips" id="chips">
+            <button class="chip" data-usd="5">$5</button>
+            <button class="chip is-on" data-usd="10">$10</button>
+            <button class="chip" data-usd="25">$25</button>
+            <button class="chip" data-usd="50">$50</button>
+          </div>
+
+          <div class="route">
+            <div class="route-line">
+              <span class="dot from"></span>
+              <div>
+                <strong>You send</strong>
+                <p id="sendLine">$10 USDC from your wallet</p>
+              </div>
+            </div>
+            <div class="route-line">
+              <span class="dot to"></span>
+              <div>
+                <strong>You receive on Arc</strong>
+                <p id="recvLine">≈ $9.80 native USDC, minted by Circle</p>
+              </div>
+            </div>
+            <div class="feegrid" id="feeGrid">
+              <span>Loom fee (1%)</span><b id="loomFee">$0.10</b>
+              <span>Circle network fee</span><b id="netFee">≤ $0.02</b>
             </div>
           </div>
-          <div class="route-line">
-            <span class="dot to"></span>
-            <div>
-              <strong>You receive</strong>
-              <p id="recvLine">Native USDC on Arc, minted by Circle. No wrapped version.</p>
-            </div>
-          </div>
+
           <div class="go">
-            <a class="btn" href="https://bridge.usdc.com" rel="noopener" target="_blank" id="goBtn">
-              Continue on Circle's official bridge <span class="arr">↗</span>
-            </a>
-            <p class="tiny" id="feeLine">Loom fee: $0. Network fee paid to Circle's protocol, shown before you sign.</p>
+            <button class="btn" id="actionBtn" disabled>Connect wallet</button>
+            <p class="tiny" id="feeLine">
+              One approval, one signature. Fee is taken inside the same transaction — funds never rest with Loom.
+            </p>
           </div>
         </div>
+
+        <div class="status" id="statusBox" hidden>
+          <p class="mono" id="statusText"></p>
+          <p class="tiny" id="statusLinks"></p>
+        </div>
+
+        <p class="tiny" id="noWallet" hidden>
+          No EVM wallet detected. Install MetaMask, Rabby or Brave Wallet — or use the
+          <a href="https://bridge.usdc.com" rel="noopener" target="_blank">official Circle bridge</a> directly.
+        </p>
       </div>
 
       <div class="note">
-        We currently hand you to Circle's official USDC Bridge with your amount pre-decided.
-        It is the safest possible first ride: your signature goes straight to Circle's
-        contracts, and our site never touches a key or a cent.
+        Transfers run on Circle's CCTP v2 Forwarding Service — the same official
+        burn-and-mint channel the USDC Bridge uses. Loom adds a router contract that
+        routes your signature straight to Circle's contracts and takes 1% on the way.
+        Open source, verifiable on-chain: see the <a href="/security/">security page</a>.
       </div>
     </section>
 
@@ -71,19 +96,19 @@ import Base from '../layouts/Base.astro';
         <div class="step">
           <div>
             <h3>Connect your wallet</h3>
-            <p>Phantom on Solana, or any EVM wallet on Ethereum. The bridge auto-detects your chains.</p>
+            <p>Any EVM wallet on Ethereum or Base. Your address is also your Arc address — same format.</p>
           </div>
         </div>
         <div class="step">
           <div>
-            <h3>Sign one transaction</h3>
-            <p>Your USDC is burned on the source chain by Circle's CCTP v2 contracts. Burn-and-mint, not lock-and-wrap: nothing is pooled anywhere.</p>
+            <h3>Approve once, then sign</h3>
+            <p>The approval lets our router pull exactly the USDC you chose. The bridge call burns 99% of it via Circle's CCTP v2 and sends 1% to our treasury — all in one transaction, nothing pooled.</p>
           </div>
         </div>
         <div class="step">
           <div>
             <h3>USDC appears on Arc</h3>
-            <p>Circle mints native USDC to your Arc address, usually within seconds via fast transfer. On Arc, USDC is also the gas token, so you can use it immediately.</p>
+            <p>Circle's Forwarding Service mints native USDC to your address, usually within a minute. On Arc, USDC is also the gas token, so it is immediately spendable.</p>
           </div>
         </div>
       </div>
@@ -96,11 +121,12 @@ import Base from '../layouts/Base.astro';
         Before mainnet opened, USDC already sitting on Arc changed hands over the counter at
         up to 1.8x face value, with a 3% taker fee on top. That premium exists because the
         official 1:1 channel only opens with mainnet. When it opens, the discount is the
-        trade: same dollar, no premium, straight from Circle.
+        trade: same dollar, no premium, straight from Circle. Even with our 1%, entering
+        through Loom beats paying 80% over the counter.
       </p>
       <p class="lead">
         If you paid 1.8x over the counter to be early, you bet day-one returns beat 80%.
-        If you wait for the official channel, you give up minutes, not days.
+        If you enter through the official channel, you give up minutes, not days.
       </p>
     </section>
 
@@ -108,7 +134,11 @@ import Base from '../layouts/Base.astro';
       <p class="kicker">Questions</p>
       <details class="faq">
         <summary>Is Loom a bridge?</summary>
-        <p>No. Loom is a thin, open-source entry page. The actual transfer runs on Circle's official CCTP v2 contracts through the official USDC Bridge. We hold nothing, route nothing, and charge nothing.</p>
+        <p>Loom is a thin, open-source frontend plus a non-custodial router contract. The transfer itself runs on Circle's official CCTP v2 contracts. The router never holds your funds: fee and burn execute in the same transaction you sign.</p>
+      </details>
+      <details class="faq">
+        <summary>What does the 1% pay for?</summary>
+        <p>Keeping this page fast, independent and maintained during the launch window. If you'd rather pay zero, use Circle's official bridge directly — same destination, a few more steps.</p>
       </details>
       <details class="faq">
         <summary>Why only small amounts?</summary>
@@ -120,7 +150,7 @@ import Base from '../layouts/Base.astro';
       </details>
       <details class="faq">
         <summary>Do I need gas on Arc first?</summary>
-        <p>No separate purchase needed for the transfer itself. USDC is the gas token on Arc, so the balance you receive is immediately spendable for transaction fees.</p>
+        <p>No separate purchase needed. USDC is the gas token on Arc, so the balance you receive is immediately spendable for transaction fees.</p>
       </details>
       <details class="faq">
         <summary>Is this affiliated with Circle?</summary>
@@ -128,51 +158,232 @@ import Base from '../layouts/Base.astro';
       </details>
     </section>
 
-  </div>
+    <script is:inline>
+    (function () {
+      var ARC_DOMAIN = 26;
+      var CFG = {
+        1:       { name: 'Ethereum', domain: 0,  usdc: '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48', messenger: '0x28b5a0e9C621a5BadaA536219b3a228C8168cf5d', router: '', iris: 'https://iris-api.circle.com', ex: 'https://etherscan.io', arcex: '' },
+        8453:    { name: 'Base',      domain: 6,  usdc: '0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913', messenger: '0x28b5a0e9C621a5BadaA536219b3a228C8168cf5d', router: '', iris: 'https://iris-api.circle.com', ex: 'https://basescan.org', arcex: '' },
+        11155111:{ name: 'Sepolia',  domain: 0,  usdc: '0x1c7d4b196cb0c7b01d743fbc6116a902379c7238', messenger: '0x8fe6b999dc680ccfdd5bf7eb0974218be2542daa', router: '0x3625f66718dd3f2e14b8b337047b98af26f16d0c', iris: 'https://iris-api-sandbox.circle.com', ex: 'https://sepolia.etherscan.io', arcex: 'https://testnet.arcscan.app', test: true }
+      };
+      var st = { addr: null, chainId: null, cfg: null, bal: 0, allow: 0, amount: 10, netFeeHi: null, phase: 'idle', burnHash: null };
 
-  <style>
-    .hero { padding: 72px 0 8px; }
-    .hero .sub { font-size: 18px; color: var(--ink-2); max-width: 56ch; margin-top: 18px; }
-    .hero-cta { display: flex; gap: 12px; margin-top: 26px; flex-wrap: wrap; }
-    .lead { font-size: 16px; color: var(--ink-2); max-width: 62ch; margin-bottom: 12px; }
-    .panel {
-      border: 1px solid var(--line); border-radius: 14px; background: #fff;
-      padding: 22px; margin: 22px 0 8px;
-    }
-    .chips { display: flex; gap: 10px; margin-bottom: 20px; }
-    .chip {
-      flex: 1; min-height: 64px; border: 1px solid var(--line); background: var(--bg);
-      border-radius: 10px; font-size: 20px; font-weight: 700; color: var(--ink-2);
-      cursor: pointer; font-family: var(--mono); transition: all .12s ease;
-    }
-    .chip:hover { border-color: var(--ink-2); }
-    .chip.is-on { background: var(--ink); color: #fff; border-color: var(--ink); }
-    .route-line { display: flex; gap: 14px; padding: 10px 0; }
-    .route-line .dot { width: 10px; height: 10px; border-radius: 50%; margin-top: 8px; flex: none; }
-    .dot.from { background: var(--ink-2); }
-    .dot.to { background: var(--accent); }
-    .route-line strong { font-size: 14px; }
-    .route-line p { font-size: 14px; color: var(--ink-2); }
-    .route { border-top: 1px dashed var(--line); padding-top: 8px; }
-    .go { margin-top: 14px; }
-    .tiny { font-size: 12.5px; color: var(--ink-2); margin-top: 10px; }
-    @media (max-width: 640px) {
-      .hero { padding-top: 48px; }
-      .chips { flex-wrap: wrap; }
-      .chip { min-width: calc(50% - 5px); }
-    }
-  </style>
+      var $ = function (id) { return document.getElementById(id); };
+      var eth = window.ethereum;
+      var hexToNum = function (h) { return parseInt(h, 16); };
+      var fmt = function (u6) { return (u6 / 1e6).toFixed(2); };
 
-  <script is:inline>
-    var chips = document.querySelectorAll('.chip');
-    var sendLine = document.getElementById('sendLine');
-    chips.forEach(function (c) {
-      c.addEventListener('click', function () {
-        chips.forEach(function (x) { x.classList.remove('is-on'); });
-        c.classList.add('is-on');
-        var v = c.getAttribute('data-usd');
-        sendLine.textContent = '$' + v + ' USDC from your own wallet (Solana or Ethereum)';
+      function b32(addr) {
+        return '0x000000000000000000000000' + addr.toLowerCase().slice(2);
+      }
+      // function selectors (keccak-256, precomputed):
+      var SEL = {
+        approve: '095ea7b3',
+        bridge: '9dc1017b'
+      };
+      function txData(sel, words) {
+        return '0x' + sel + words;
+      }
+
+      function req(method, params) { return eth.request({ method: method, params: params }); }
+
+      function setStatus(text, links) {
+        $('statusBox').hidden = false;
+        $('statusText').textContent = text;
+        $('statusLinks').innerHTML = links || '';
+      }
+
+      async function refresh() {
+        var c = st.cfg;
+        if (!c || !st.addr) return;
+        // balance + allowance (uint outputs)
+        var balData = txData('70a08231', st.addr.toLowerCase().slice(2).padStart(64, '0'));
+        var allowData = txData('dd62ed3e', st.addr.toLowerCase().slice(2).padStart(64, '0') + c.router.slice(2).toLowerCase().padStart(64, '0'));
+        try {
+          var b = await req('eth_call', [{ to: c.usdc, data: balData }, 'latest']);
+          var a = await req('eth_call', [{ to: c.usdc, data: allowData }, 'latest']);
+          st.bal = Number(BigInt(b)); st.allow = Number(BigInt(a));
+          $('balLine').hidden = false;
+          $('balLine').textContent = 'Balance: $' + fmt(st.bal) + ' USDC' + (c.test ? ' (testnet)' : '');
+        } catch (e) { /* ignore */ }
+        // network fee quote
+        try {
+          var r = await fetch(c.iris + '/v2/burn/USDC/fees/' + c.domain + '/' + ARC_DOMAIN + '?forward=true');
+          var fees = await r.json();
+          var f = fees.find(function (x) { return x.finalityThreshold === 1000; });
+          if (f) { st.netFeeHi = Number(f.forwardFee.high) / 1e6; $('netFee').textContent = '≤ $' + st.netFeeHi.toFixed(3); }
+        } catch (e) { /* fee quote optional */ }
+        renderAmount();
+        renderAction();
+      }
+
+      function renderAmount() {
+        var amt = st.amount;
+        var fee = amt * 0.01;
+        var arrive = amt - fee - (st.netFeeHi || 0.021);
+        $('sendLine').textContent = '$' + amt.toFixed(2) + ' USDC from your wallet';
+        $('recvLine').textContent = '≈ $' + Math.max(arrive, 0).toFixed(2) + ' native USDC, minted by Circle';
+        $('loomFee').textContent = '$' + fee.toFixed(2);
+      }
+
+      function renderAction() {
+        var btn = $('actionBtn');
+        if (!st.cfg) { btn.textContent = 'Connect wallet'; btn.disabled = true; return; }
+        if (!st.cfg.router) { btn.textContent = 'Mainnet router goes live at launch'; btn.disabled = true; return; }
+        if (st.bal < st.amount * 1e6) { btn.textContent = 'Not enough USDC' + (st.cfg.test ? ' (testnet)' : ''); btn.disabled = true; return; }
+        if (st.allow < st.amount * 1e6) { btn.textContent = 'Step 1 — Approve USDC'; btn.disabled = false; st.phase = 'approve'; return; }
+        btn.textContent = 'Step 2 — Bridge to Arc'; btn.disabled = false; st.phase = 'bridge';
+      }
+
+      async function connect() {
+        if (!eth) { $('noWallet').hidden = false; return; }
+        try {
+          var accs = await req('eth_requestAccounts', []);
+          st.addr = accs[0];
+          var cid = hexToNum(await req('eth_chainId', []));
+          st.chainId = cid;
+          var badge = $('netBadge');
+          if (CFG[cid]) {
+            st.cfg = CFG[cid];
+            badge.hidden = false;
+            badge.textContent = st.cfg.name + (st.cfg.test ? ' · TESTNET' : '') + ' → Arc';
+          } else {
+            st.cfg = null;
+            badge.hidden = false;
+            badge.textContent = 'Unsupported chain';
+          }
+          $('connectBtn').textContent = st.addr.slice(0, 6) + '…' + st.addr.slice(-4);
+          $('widget').hidden = false;
+          await refresh();
+        } catch (e) { setStatus('Wallet connection failed: ' + (e.message || e), ''); }
+      }
+
+      async function sendTx(to, data) {
+        var params = [{ from: st.addr, to: to, data: data }];
+        try { return await req('eth_sendTransaction', params); }
+        catch (e) {
+          if ((e.code === -32602 || (e.message || '').indexOf('gas') >= 0)) {
+            var price = await req('eth_gasPrice', []);
+            params[0].gasPrice = price;
+            return await req('eth_sendTransaction', params);
+          }
+          throw e;
+        }
+      }
+
+      function waitTx(hash) {
+        return new Promise(function (resolve) {
+          var tries = 0;
+          (function poll() {
+            req('eth_getTransactionReceipt', [hash]).then(function (rc) {
+              if (rc) { resolve(rc); return; }
+              if (++tries > 90) { resolve(null); return; }
+              setTimeout(poll, 4000);
+            }).catch(function () { if (++tries > 90) { resolve(null); } else setTimeout(poll, 4000); });
+          })();
+        });
+      }
+
+      async function doAction() {
+        var c = st.cfg;
+        if (!c || !c.router) return;
+        var btn = $('actionBtn');
+        btn.disabled = true;
+
+        try {
+          if (st.phase === 'approve') {
+            btn.textContent = 'Waiting for approval…';
+            var data = txData(SEL.approve, c.router.slice(2).toLowerCase().padStart(64, '0') + BigInt(Math.round(st.amount * 1e6)).toString(16).padStart(64, '0'));
+            var h = await sendTx(c.usdc, data);
+            setStatus('Approval sent — confirm in your wallet explorer:', '<a href="' + c.ex + '/tx/' + h + '" target="_blank" rel="noopener">' + h.slice(0, 18) + '…</a>');
+            var rc = await waitTx(h);
+            if (!rc || rc.status !== '0x1') { setStatus('Approval failed or timed out.', ''); btn.disabled = false; renderAction(); return; }
+            await refresh();
+            return;
+          }
+
+          if (st.phase === 'bridge') {
+            btn.textContent = 'Waiting for signature…';
+            var total = BigInt(Math.round(st.amount * 1e6));
+            var maxFee = BigInt(Math.ceil((st.netFeeHi || 0.021) * 1e6)) + 1000n;
+            // bridge(uint256,bytes32,uint256)
+            var words = total.toString(16).padStart(64, '0')
+              + b32(st.addr).slice(2)
+              + maxFee.toString(16).padStart(64, '0');
+            var h2 = await sendTx(c.router, txData(SEL.bridge, words));
+            st.burnHash = h2;
+            setStatus('Burn sent. Waiting for Circle to mint on Arc…', '<a href="' + c.ex + '/tx/' + h2 + '" target="_blank" rel="noopener">' + h2.slice(0, 18) + '…</a>');
+            var rc2 = await waitTx(h2);
+            if (!rc2 || rc2.status !== '0x1') { setStatus('Bridge transaction failed.', ''); btn.disabled = false; renderAction(); return; }
+            // poll iris for forwardTxHash
+            var tries = 0, fwd = null;
+            (function pollIris() {
+              fetch(c.iris + '/v2/messages/' + c.domain + '?transactionHash=' + h2)
+                .then(function (r) { return r.json(); })
+                .then(function (m) {
+                  fwd = m && m.messages && m.messages[0] && m.messages[0].forwardTxHash;
+                  if (fwd) {
+                    var link = c.arcex ? '<a href="' + c.arcex + '/tx/' + fwd + '" target="_blank" rel="noopener">mint tx</a>' : 'mint tx ' + fwd.slice(0, 18) + '…';
+                    setStatus('Done. Native USDC minted on Arc.', 'Burn: <a href="' + c.ex + '/tx/' + h2 + '" target="_blank" rel="noopener">' + h2.slice(0, 12) + '…</a> · ' + link);
+                    btn.disabled = false; renderAction();
+                  } else if (++tries > 60) {
+                    setStatus('Mint still pending — your burn is confirmed, Circle will mint shortly. Check: ' + h2.slice(0, 18) + '…', '');
+                    btn.disabled = false; renderAction();
+                  } else { setTimeout(pollIris, 5000); }
+                })
+                .catch(function () { if (++tries > 60) { setStatus('Mint still pending — burn confirmed.', ''); btn.disabled = false; } else setTimeout(pollIris, 5000); });
+            })();
+          }
+        } catch (e) {
+          if ((e.code === 4001)) { setStatus('Rejected in wallet.', ''); }
+          else { setStatus('Error: ' + (e.message || e), ''); }
+          btn.disabled = false; renderAction();
+        }
+      }
+
+      // init
+      var chips = document.querySelectorAll('#chips .chip');
+      chips.forEach(function (ch) {
+        ch.addEventListener('click', function () {
+          chips.forEach(function (x) { x.classList.remove('is-on'); });
+          ch.classList.add('is-on');
+          st.amount = parseFloat(ch.getAttribute('data-usd'));
+          renderAmount(); renderAction();
+        });
       });
-    });
-  </script>
+      $('connectBtn').addEventListener('click', connect);
+      $('actionBtn').addEventListener('click', doAction);
+      if (!eth) { $('noWallet').hidden = false; }
+      if (eth && eth.on) {
+        eth.on('accountsChanged', function () { location.reload(); });
+        eth.on('chainChanged', function () { location.reload(); });
+      }
+    })();
+    </script>
+
+    <style is:global>
+      .panel { background: #fff; border: 1px solid var(--line); border-radius: 14px; padding: 22px; margin: 22px 0; }
+      .wtop { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; flex-wrap: wrap; }
+      .netbadge { font-family: var(--mono); font-size: 12px; background: var(--accent-soft); color: var(--accent); padding: 4px 10px; border-radius: 999px; }
+      .bal { font-size: 13px; color: var(--ink-2); }
+      .chips { display: flex; gap: 10px; margin-bottom: 18px; flex-wrap: wrap; }
+      .chip { border: 1px solid var(--line); background: #fff; border-radius: 999px; padding: 9px 18px; font-size: 15px; font-weight: 600; color: var(--ink); cursor: pointer; }
+      .chip.is-on { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+      .wbtn { font-size: 13px; padding: 7px 14px; }
+      .route { margin-bottom: 6px; }
+      .route-line { display: flex; gap: 12px; padding: 10px 0; }
+      .dot { width: 9px; height: 9px; border-radius: 50%; margin-top: 7px; flex: none; }
+      .dot.from { background: var(--ink-2); } .dot.to { background: var(--accent); }
+      .route-line strong { font-size: 14px; }
+      .route-line p { font-size: 14px; color: var(--ink-2); }
+      .feegrid { display: grid; grid-template-columns: 1fr auto; gap: 4px 18px; font-size: 13px; color: var(--ink-2); border-top: 1px dashed var(--line); padding-top: 12px; margin-top: 6px; }
+      .feegrid b { color: var(--ink); font-family: var(--mono); font-weight: 600; }
+      .go { margin-top: 16px; }
+      .go .btn { width: 100%; justify-content: center; }
+      .tiny { font-size: 12.5px; color: var(--ink-2); margin-top: 10px; }
+      .status { border-top: 1px solid var(--line); margin-top: 16px; padding-top: 14px; }
+      .status .mono { font-family: var(--mono); font-size: 13px; color: var(--ink); }
+      @media (max-width: 640px) { .panel { padding: 16px; } .chip { padding: 8px 14px; font-size: 14px; } }
+    </style>
+  </div>
 </Base>

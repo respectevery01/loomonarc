@@ -1,9 +1,15 @@
 ---
 import Base from '../layouts/Base.astro';
 const arcContracts = [
-  ['USDC (Arc)', '0x3600000000000000000000000000000000000000', 'Native USDC contract on Arc'],
-  ['TokenMessengerV2 (Arc)', '0x8FE6B999Dc680CcFDD5Bf7EB0974218be2542DAA', 'Handles inbound burns and mints (CCTP v2)'],
-  ['MessageTransmitterV2 (Arc)', '0xE737e5cEBEEBa77EFE34D4aa090756590b1CE275', 'Message attestation contract (CCTP v2)'],
+  ['USDC (Arc Testnet)', '0x3600000000000000000000000000000000000000', 'Native USDC, ERC-20 interface (6 dp)'],
+  ['TokenMessengerV2 (Arc Testnet)', '0x8FE6B999Dc680CcFDD5Bf7EB0974218be2542DAA', 'Burns and mints (CCTP v2, domain 26)'],
+  ['MessageTransmitterV2 (Arc Testnet)', '0xE737e5cEBEEBa77EFE34D4aa090756590b1CE275', 'Message attestation (CCTP v2)'],
+];
+const loomContracts = [
+  ['LoomRouter (Sepolia testnet)', '0x3625f66718dd3f2e14b8b337047b98af26f16d0c', '1% fee + Circle burn in one tx — live-tested'],
+  ['LoomRouter (Ethereum mainnet)', 'pending deploy', 'Deployed at mainnet launch, address pinned here'],
+  ['LoomRouter (Base mainnet)', 'pending deploy', 'Deployed at mainnet launch, address pinned here'],
+  ['TokenMessengerV2 (Ethereum/Base mainnet)', '0x28b5a0e9C621a5BadaA536219b3a228C8168cf5d', "Circle's official CCTP v2 messenger"],
 ];
 ---
 <Base title="Security model" desc="How Loom stays non-custodial: static open-source page, no backend, no keys, transfers execute only on Circle's official CCTP contracts. Verify every address." path="security">
@@ -47,12 +53,21 @@ const arcContracts = [
           </div>
         </div>
       </div>
+      <p class="lead" style="margin-top:22px">The Loom side: our router contract and the Circle contracts it calls. Router source: <a href="https://github.com/respectevery01/loomonarc/blob/main/contracts/LoomRouter.sol" rel="noopener" target="_blank">LoomRouter.sol</a> — 60 lines, read it.</p>
+      <div class="table">
+        {loomContracts.map(([name, addr, note]) => (
+          <div class="row">
+            <div class="cell-name"><strong>{name}</strong><span>{note}</span></div>
+            <code>{addr}</code>
+          </div>
+        ))}
+      </div>
     </section>
 
     <section class="block">
       <p class="kicker">Verify before you sign</p>
       <h2>Contract addresses.</h2>
-      <p class="lead">Arc-side CCTP contracts as published in the official Arc docs. Cross-check them against docs.arc.io and against what your wallet shows before signing.</p>
+      <p class="lead">Arc testnet addresses as published in the official Arc docs (mainnet addresses are published at launch — we pin them here the same hour). Cross-check docs.arc.io and your wallet before signing.</p>
       <div class="table">
         {arcContracts.map(([name, addr, note]) => (
           <div class="row">
