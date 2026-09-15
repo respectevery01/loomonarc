@@ -1,0 +1,178 @@
+---
+import Base from '../layouts/Base.astro';
+---
+<Base>
+  <div class="wrap">
+
+    <section class="hero">
+      <p class="kicker">Arc mainnet · September 16</p>
+      <h1>One tap onto Arc.</h1>
+      <p class="sub">
+        Pick a small amount, send it through Circle's official burn-and-mint channel,
+        and get native USDC on Arc. A dollar is enough to get in. No wrapped tokens,
+        no intermediary custody, no fee from us.
+      </p>
+      <div class="hero-cta">
+        <a class="btn" href="#enter">Pick your amount <span class="arr">→</span></a>
+        <a class="btn btn-soft" href="/security">How it stays safe</a>
+      </div>
+    </section>
+
+    <section class="block" id="enter">
+      <p class="kicker">Entry amounts</p>
+      <h2>Small money moves first.</h2>
+      <p class="lead">
+        Day one on a new chain is for exploring, not for moving your savings.
+        Pick what you are comfortable with. Every amount goes through the same
+        official channel.
+      </p>
+
+      <div class="panel">
+        <div class="chips" id="chips">
+          <button class="chip" data-usd="1">$1</button>
+          <button class="chip" data-usd="5">$5</button>
+          <button class="chip is-on" data-usd="10">$10</button>
+          <button class="chip" data-usd="25">$25</button>
+        </div>
+        <div class="route" id="route">
+          <div class="route-line">
+            <span class="dot from"></span>
+            <div>
+              <strong>You send</strong>
+              <p id="sendLine">$10 USDC from your own wallet (Solana or Ethereum)</p>
+            </div>
+          </div>
+          <div class="route-line">
+            <span class="dot to"></span>
+            <div>
+              <strong>You receive</strong>
+              <p id="recvLine">Native USDC on Arc, minted by Circle. No wrapped version.</p>
+            </div>
+          </div>
+          <div class="go">
+            <a class="btn" href="https://bridge.usdc.com" rel="noopener" target="_blank" id="goBtn">
+              Continue on Circle's official bridge <span class="arr">↗</span>
+            </a>
+            <p class="tiny" id="feeLine">Loom fee: $0. Network fee paid to Circle's protocol, shown before you sign.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="note">
+        We currently hand you to Circle's official USDC Bridge with your amount pre-decided.
+        It is the safest possible first ride: your signature goes straight to Circle's
+        contracts, and our site never touches a key or a cent.
+      </div>
+    </section>
+
+    <section class="block">
+      <p class="kicker">How it works</p>
+      <div class="steps">
+        <div class="step">
+          <div>
+            <h3>Connect your wallet</h3>
+            <p>Phantom on Solana, or any EVM wallet on Ethereum. The bridge auto-detects your chains.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div>
+            <h3>Sign one transaction</h3>
+            <p>Your USDC is burned on the source chain by Circle's CCTP v2 contracts. Burn-and-mint, not lock-and-wrap: nothing is pooled anywhere.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div>
+            <h3>USDC appears on Arc</h3>
+            <p>Circle mints native USDC to your Arc address, usually within seconds via fast transfer. On Arc, USDC is also the gas token, so you can use it immediately.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="block">
+      <p class="kicker">Day-zero context</p>
+      <h2>Why everyone is in a hurry.</h2>
+      <p class="lead">
+        Before mainnet opened, USDC already sitting on Arc changed hands over the counter at
+        up to 1.8x face value, with a 3% taker fee on top. That premium exists because the
+        official 1:1 channel only opens with mainnet. When it opens, the discount is the
+        trade: same dollar, no premium, straight from Circle.
+      </p>
+      <p class="lead">
+        If you paid 1.8x over the counter to be early, you bet day-one returns beat 80%.
+        If you wait for the official channel, you give up minutes, not days.
+      </p>
+    </section>
+
+    <section class="block">
+      <p class="kicker">Questions</p>
+      <details class="faq">
+        <summary>Is Loom a bridge?</summary>
+        <p>No. Loom is a thin, open-source entry page. The actual transfer runs on Circle's official CCTP v2 contracts through the official USDC Bridge. We hold nothing, route nothing, and charge nothing.</p>
+      </details>
+      <details class="faq">
+        <summary>Why only small amounts?</summary>
+        <p>Day-one exploration works better with money you can afford to lose. Presets keep the decision fast. If you are moving serious size, go directly to the official bridge and take your time with the details.</p>
+      </details>
+      <details class="faq">
+        <summary>What can I do with USDC on Arc?</summary>
+        <p>Arc is Circle's stablecoin-native L1: USDC is the gas token, finality is sub-second, and the ecosystem goes live with mainnet on September 16. Expect early launches, swaps and deployment activity in the first days.</p>
+      </details>
+      <details class="faq">
+        <summary>Do I need gas on Arc first?</summary>
+        <p>No separate purchase needed for the transfer itself. USDC is the gas token on Arc, so the balance you receive is immediately spendable for transaction fees.</p>
+      </details>
+      <details class="faq">
+        <summary>Is this affiliated with Circle?</summary>
+        <p>No. Independent project, open source, no endorsement from Circle. All trademarks belong to their owners. Verify every contract address in your wallet before signing anything, anywhere.</p>
+      </details>
+    </section>
+
+  </div>
+
+  <style>
+    .hero { padding: 72px 0 8px; }
+    .hero .sub { font-size: 18px; color: var(--ink-2); max-width: 56ch; margin-top: 18px; }
+    .hero-cta { display: flex; gap: 12px; margin-top: 26px; flex-wrap: wrap; }
+    .lead { font-size: 16px; color: var(--ink-2); max-width: 62ch; margin-bottom: 12px; }
+    .panel {
+      border: 1px solid var(--line); border-radius: 14px; background: #fff;
+      padding: 22px; margin: 22px 0 8px;
+    }
+    .chips { display: flex; gap: 10px; margin-bottom: 20px; }
+    .chip {
+      flex: 1; min-height: 64px; border: 1px solid var(--line); background: var(--bg);
+      border-radius: 10px; font-size: 20px; font-weight: 700; color: var(--ink-2);
+      cursor: pointer; font-family: var(--mono); transition: all .12s ease;
+    }
+    .chip:hover { border-color: var(--ink-2); }
+    .chip.is-on { background: var(--ink); color: #fff; border-color: var(--ink); }
+    .route-line { display: flex; gap: 14px; padding: 10px 0; }
+    .route-line .dot { width: 10px; height: 10px; border-radius: 50%; margin-top: 8px; flex: none; }
+    .dot.from { background: var(--ink-2); }
+    .dot.to { background: var(--accent); }
+    .route-line strong { font-size: 14px; }
+    .route-line p { font-size: 14px; color: var(--ink-2); }
+    .route { border-top: 1px dashed var(--line); padding-top: 8px; }
+    .go { margin-top: 14px; }
+    .tiny { font-size: 12.5px; color: var(--ink-2); margin-top: 10px; }
+    @media (max-width: 640px) {
+      .hero { padding-top: 48px; }
+      .chips { flex-wrap: wrap; }
+      .chip { min-width: calc(50% - 5px); }
+    }
+  </style>
+
+  <script is:inline>
+    var chips = document.querySelectorAll('.chip');
+    var sendLine = document.getElementById('sendLine');
+    chips.forEach(function (c) {
+      c.addEventListener('click', function () {
+        chips.forEach(function (x) { x.classList.remove('is-on'); });
+        c.classList.add('is-on');
+        var v = c.getAttribute('data-usd');
+        sendLine.textContent = '$' + v + ' USDC from your own wallet (Solana or Ethereum)';
+      });
+    });
+  </script>
+</Base>

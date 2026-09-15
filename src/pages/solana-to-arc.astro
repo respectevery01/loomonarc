@@ -1,0 +1,75 @@
+---
+import Base from '../layouts/Base.astro';
+---
+<Base title="How to move USDC from Solana to Arc" desc="Step-by-step: send USDC from Solana (Phantom) to Arc via Circle's official CCTP v2 burn-and-mint channel. Native USDC on Arc, no wrapped tokens, fee under a cent." path="solana-to-arc">
+  <div class="wrap">
+
+    <section class="hero">
+      <p class="kicker">Route · Solana → Arc</p>
+      <h1>Solana USDC to Arc.</h1>
+      <p class="sub">
+        Phantom wallet, one signature, native USDC on Arc. Solana runs the same
+        Circle CCTP v2 burn-and-mint as every other chain, so nothing gets wrapped
+        and nothing sits in a pool.
+      </p>
+      <div class="hero-cta">
+        <a class="btn" href="https://bridge.usdc.com" rel="noopener" target="_blank">Open official bridge <span class="arr">↗</span></a>
+        <a class="btn btn-soft" href="/#enter">Pick a preset amount</a>
+      </div>
+    </section>
+
+    <section class="block">
+      <p class="kicker">Steps</p>
+      <div class="steps">
+        <div class="step">
+          <div>
+            <h3>Prepare your Arc address</h3>
+            <p>You need a receiving address on Arc first. Add the Arc network to any EVM wallet (MetaMask, Rabby, or your wallet's custom network option) and copy the address. It looks like a normal 0x address.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div>
+            <h3>Open the official USDC Bridge</h3>
+            <p>Go to bridge.usdc.com, connect Phantom, choose Solana as source and Arc as destination. Paste your Arc address.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div>
+            <h3>Check two things, then sign</h3>
+            <p>Keep a little SOL for the transaction fee. Confirm the token shows as native USDC, not a wrapped variant. Sign the burn transaction.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div>
+            <h3>Watch it land</h3>
+            <p>Circle mints native USDC on Arc to your address, typically within seconds. On Arc, USDC is the gas token, so it is spendable immediately.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="block">
+      <p class="kicker">Details that matter</p>
+      <details class="faq">
+        <summary>How much does it cost?</summary>
+        <p>A few cents of SOL on the Solana side, plus the protocol fee shown before you sign. There is no percentage cut from us.</p>
+      </details>
+      <details class="faq">
+        <summary>What if I hold USDC on other chains?</summary>
+        <p>Same flow from Ethereum, Base, Arbitrum and other supported chains. See <a href="/ethereum-to-arc">Ethereum to Arc</a> for the EVM version.</p>
+      </details>
+      <details class="faq">
+        <summary>Why not a third-party bridge?</summary>
+        <p>Lock-and-wrap bridges give you a claim on pooled funds. Burn-and-mint gives you the asset itself, issued by Circle on Arc. For a chain day one, that difference is the whole game.</p>
+      </details>
+    </section>
+
+  </div>
+
+  <style>
+    .hero { padding: 72px 0 8px; }
+    .hero .sub { font-size: 18px; color: var(--ink-2); max-width: 56ch; margin-top: 18px; }
+    .hero-cta { display: flex; gap: 12px; margin-top: 26px; flex-wrap: wrap; }
+    @media (max-width: 640px) { .hero { padding-top: 48px; } }
+  </style>
+</Base>

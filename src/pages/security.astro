@@ -1,0 +1,99 @@
+---
+import Base from '../layouts/Base.astro';
+const arcContracts = [
+  ['USDC (Arc)', '0x3600000000000000000000000000000000000000', 'Native USDC contract on Arc'],
+  ['TokenMessengerV2 (Arc)', '0x8FE6B999Dc680CcFDD5Bf7EB0974218be2542DAA', 'Handles inbound burns and mints (CCTP v2)'],
+  ['MessageTransmitterV2 (Arc)', '0xE737e5cEBEEBa77EFE34D4aa090756590b1CE275', 'Message attestation contract (CCTP v2)'],
+];
+---
+<Base title="Security model" desc="How Loom stays non-custodial: static open-source page, no backend, no keys, transfers execute only on Circle's official CCTP contracts. Verify every address." path="security">
+  <div class="wrap">
+
+    <section class="hero">
+      <p class="kicker">Security</p>
+      <h1>Nothing to steal here.</h1>
+      <p class="sub">
+        The safest frontend is the one with no funds, no keys and no database.
+        Loom is a static page. Every transfer you make is signed by you, in your
+        wallet, against Circle's published contract addresses.
+      </p>
+    </section>
+
+    <section class="block">
+      <p class="kicker">The model</p>
+      <div class="steps">
+        <div class="step">
+          <div>
+            <h3>No custody, at any point</h3>
+            <p>Your USDC moves from your wallet to a Circle contract. There is no Loom deposit address, no treasury, no pooling. A hack of this site cannot drain balances we never held.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div>
+            <h3>No backend, no accounts</h3>
+            <p>Static files on a CDN. No server process, no database, no API keys, no analytics cookies. Nothing to breach, nothing to leak.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div>
+            <h3>Official contracts only</h3>
+            <p>Transfers run on Circle's CCTP v2, the same infrastructure used by major exchanges and wallets. The code is public and audited by Circle's auditors.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div>
+            <h3>Open source</h3>
+            <p>Every line of this site is on GitHub. Build it yourself and compare. If what you see on this domain does not match the repository, do not use it.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="block">
+      <p class="kicker">Verify before you sign</p>
+      <h2>Contract addresses.</h2>
+      <p class="lead">Arc-side CCTP contracts as published in the official Arc docs. Cross-check them against docs.arc.io and against what your wallet shows before signing.</p>
+      <div class="table">
+        {arcContracts.map(([name, addr, note]) => (
+          <div class="row">
+            <div class="cell-name"><strong>{name}</strong><span>{note}</span></div>
+            <code>{addr}</code>
+          </div>
+        ))}
+      </div>
+      <div class="note">
+        Arc mainnet opens September 16, 2026. Contract sets can be finalized at launch.
+        Treat docs.arc.io as the source of truth and re-verify addresses on the day you transfer.
+      </div>
+    </section>
+
+    <section class="block">
+      <p class="kicker">Honest risks</p>
+      <details class="faq">
+        <summary>Could a fake Loom appear?</summary>
+        <p>Yes. Anything with traction gets cloned. Bookmark the exact domain, and check that the transaction you sign shows official Circle contracts. Never sign transfers to addresses you cannot verify.</p>
+      </details>
+      <details class="faq">
+        <summary>What is the worst case for this site?</summary>
+        <p>Someone compromises this page or its build. Then the page could try to trick you into signing a bad transaction. Your defense is the same as everywhere: read what your wallet shows before you sign. The wallet is the last checkpoint, and it works.</p>
+      </details>
+      <details class="faq">
+        <summary>Does Loom collect anything?</summary>
+        <p>No accounts, no email, no tracking cookies, no analytics. The site loads, you click through to the official bridge, done.</p>
+      </details>
+    </section>
+
+  </div>
+
+  <style>
+    .hero { padding: 72px 0 8px; }
+    .hero .sub { font-size: 18px; color: var(--ink-2); max-width: 56ch; margin-top: 18px; }
+    .lead { font-size: 15px; color: var(--ink-2); max-width: 62ch; margin-bottom: 16px; }
+    .table { border-top: 1px solid var(--line); }
+    .row { display: flex; gap: 18px; justify-content: space-between; padding: 14px 0; border-bottom: 1px solid var(--line); flex-wrap: wrap; }
+    .cell-name { min-width: 200px; }
+    .cell-name span { display: block; font-size: 13px; color: var(--ink-2); }
+    .row code { font-family: var(--mono); font-size: 12.5px; word-break: break-all; color: var(--ink); }
+    @media (max-width: 640px) { .hero { padding-top: 48px; } }
+  </style>
+</Base>

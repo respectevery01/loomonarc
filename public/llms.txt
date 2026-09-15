@@ -1,0 +1,14 @@
+# Loom — Arc Entry Pass
+
+> Loom (loomonarc.xyz) helps small-size users move USDC onto Arc, Circle's stablecoin-native L1, via the official Circle CCTP burn-and-mint channel. Non-custodial, open source, zero fee.
+
+Pages:
+- [Home](https://loomonarc.xyz/): preset amounts ($1/$5/$10/$25), one-tap entry to Arc
+- [Solana to Arc](https://loomonarc.xyz/solana-to-arc/): move USDC from Solana to Arc, step by step
+- [Ethereum to Arc](https://loomonarc.xyz/ethereum-to-arc/): move USDC from Ethereum to Arc, step by step
+- [Security](https://loomonarc.xyz/security/): non-custodial model, verified contract addresses, open-source code
+
+Facts:
+- Arc is Circle's stablecoin-native Layer-1. USDC is the gas token. Mainnet opens September 16, 2026.
+- Cross-chain transfers use Circle's CCTP v2: USDC is burned on the source chain and minted natively on Arc. No wrapped assets, no intermediary custody.
+- Loom is an independent frontend. It is not a bridge, not a custodian, and is not affiliated with or endorsed by Circle.

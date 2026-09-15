@@ -1,0 +1,74 @@
+---
+import Base from '../layouts/Base.astro';
+---
+<Base title="How to move USDC from Ethereum to Arc" desc="Step-by-step: send USDC from Ethereum to Arc via Circle's official CCTP v2 burn-and-mint channel. Native USDC on Arc, no wrapped tokens." path="ethereum-to-arc">
+  <div class="wrap">
+
+    <section class="hero">
+      <p class="kicker">Route · Ethereum → Arc</p>
+      <h1>Ethereum USDC to Arc.</h1>
+      <p class="sub">
+        Any EVM wallet, one approval plus one signature, native USDC on Arc.
+        The same Circle contract that powers institutional transfers handles yours.
+      </p>
+      <div class="hero-cta">
+        <a class="btn" href="https://bridge.usdc.com" rel="noopener" target="_blank">Open official bridge <span class="arr">↗</span></a>
+        <a class="btn btn-soft" href="/#enter">Pick a preset amount</a>
+      </div>
+    </section>
+
+    <section class="block">
+      <p class="kicker">Steps</p>
+      <div class="steps">
+        <div class="step">
+          <div>
+            <h3>Prepare your Arc address</h3>
+            <p>Add the Arc network to your wallet (custom network / add chain) and copy the receiving address. Arc addresses are standard 0x format.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div>
+            <h3>Open the official USDC Bridge</h3>
+            <p>Go to bridge.usdc.com, connect your wallet, choose Ethereum as source and Arc as destination. Paste your Arc address.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div>
+            <h3>Approve, then burn</h3>
+            <p>First transaction approves Circle's TokenMessenger contract for your amount. Second transaction burns the USDC. Keep a little ETH for gas.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div>
+            <h3>USDC lands on Arc</h3>
+            <p>Circle mints native USDC on Arc. Arc settles in under a second and uses USDC itself for gas, so your balance is ready to use.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="block">
+      <p class="kicker">Details that matter</p>
+      <details class="faq">
+        <summary>Why two transactions on Ethereum?</summary>
+        <p>The approval grants Circle's contract permission to move exactly your USDC. The burn then executes against it. This is the standard, audited ERC-20 pattern.</p>
+      </details>
+      <details class="faq">
+        <summary>Ethereum gas is expensive for small amounts.</summary>
+        <p>It can exceed the transfer itself. For $1 to $25 entry amounts, Solana is the cheaper lane. See <a href="/solana-to-arc">Solana to Arc</a>.</p>
+      </details>
+      <details class="faq">
+        <summary>What arrives on Arc?</summary>
+        <p>Native USDC issued by Circle, not a wrapped IOU. On Arc, USDC has 18 decimals natively and doubles as the gas token.</p>
+      </details>
+    </section>
+
+  </div>
+
+  <style>
+    .hero { padding: 72px 0 8px; }
+    .hero .sub { font-size: 18px; color: var(--ink-2); max-width: 56ch; margin-top: 18px; }
+    .hero-cta { display: flex; gap: 12px; margin-top: 26px; flex-wrap: wrap; }
+    @media (max-width: 640px) { .hero { padding-top: 48px; } }
+  </style>
+</Base>

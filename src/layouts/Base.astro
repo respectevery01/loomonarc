@@ -1,0 +1,174 @@
+---
+interface Props {
+  title?: string;
+  desc?: string;
+  path?: string;
+}
+const { title, desc, path = '' } = Astro.props;
+const site = 'https://loomonarc.xyz';
+const fullTitle = title ? `${title} · Loom` : 'Loom · Arc Entry Pass';
+const description = desc || 'Move USDC onto Arc in one tap. $1 minimum, official Circle burn-and-mint channel, non-custodial, zero fee.';
+const canonical = path ? `${site}/${path}/` : `${site}/`;
+---
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{fullTitle}</title>
+  <meta name="description" content={description} />
+  <link rel="canonical" href={canonical} />
+  <meta name="robots" content="index,follow" />
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Loom" />
+  <meta property="og:title" content={fullTitle} />
+  <meta property="og:description" content={description} />
+  <meta property="og:url" content={canonical} />
+  <meta name="twitter:card" content="summary" />
+  <style is:global>
+    :root {
+      --bg: #f7f6f2;
+      --bg-soft: #efeee8;
+      --ink: #16181a;
+      --ink-2: #54575c;
+      --line: #dcdad2;
+      --accent: #00745f;
+      --accent-soft: #d9ede6;
+      --mono: ui-monospace, "SF Mono", "Cascadia Mono", Menlo, Consolas, monospace;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { -webkit-text-size-adjust: 100%; }
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+      font-size: 16px;
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .wrap { width: 100%; max-width: 860px; margin: 0 auto; padding: 0 24px; }
+    header.site {
+      border-bottom: 1px solid var(--line);
+      background: var(--bg);
+      position: sticky; top: 0; z-index: 10;
+    }
+    header.site .wrap { display: flex; align-items: center; justify-content: space-between; height: 58px; }
+    .brand { display: flex; align-items: baseline; gap: 10px; color: var(--ink); font-weight: 700; }
+    .brand:hover { text-decoration: none; }
+    .brand .mark {
+      width: 22px; height: 22px; border-radius: 6px; background: var(--ink);
+      display: inline-flex; align-items: center; justify-content: center;
+      transform: translateY(4px);
+    }
+    .brand .mark svg { width: 14px; height: 14px; }
+    .brand small { color: var(--ink-2); font-weight: 500; font-size: 12px; letter-spacing: 0.08em; }
+    nav.main { display: flex; gap: 22px; font-size: 14px; }
+    nav.main a { color: var(--ink-2); }
+    nav.main a:hover { color: var(--ink); text-decoration: none; }
+    main { flex: 1; }
+    footer.site { border-top: 1px solid var(--line); margin-top: 72px; padding: 28px 0 40px; font-size: 13px; color: var(--ink-2); }
+    footer.site .cols { display: flex; gap: 40px; flex-wrap: wrap; margin-bottom: 18px; }
+    footer.site .cols div { min-width: 160px; }
+    footer.site h4 { font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--ink); margin-bottom: 8px; }
+    footer.site ul { list-style: none; }
+    footer.site li { margin: 4px 0; }
+    .fine { font-size: 12px; line-height: 1.7; color: var(--ink-2); border-top: 1px solid var(--line); padding-top: 16px; }
+    h1 { font-size: clamp(30px, 5.4vw, 46px); line-height: 1.12; letter-spacing: -0.02em; font-weight: 700; }
+    h2 { font-size: 22px; letter-spacing: -0.01em; margin-bottom: 14px; }
+    section.block { padding: 44px 0 8px; }
+    .kicker { font-family: var(--mono); font-size: 12px; color: var(--accent); letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 14px; }
+    .steps { counter-reset: step; }
+    .step { display: flex; gap: 18px; padding: 18px 0; border-top: 1px solid var(--line); }
+    .step:last-child { border-bottom: 1px solid var(--line); }
+    .step::before {
+      counter-increment: step; content: counter(step, decimal-leading-zero);
+      font-family: var(--mono); font-size: 13px; color: var(--accent);
+      padding-top: 3px; min-width: 24px;
+    }
+    .step h3 { font-size: 16px; margin-bottom: 4px; }
+    .step p { color: var(--ink-2); font-size: 15px; max-width: 62ch; }
+    .addr { font-family: var(--mono); font-size: 12.5px; background: var(--bg-soft); border: 1px solid var(--line); border-radius: 6px; padding: 8px 10px; word-break: break-all; display: inline-block; }
+    details.faq { border-top: 1px solid var(--line); padding: 16px 0; }
+    details.faq:last-of-type { border-bottom: 1px solid var(--line); }
+    details.faq summary { cursor: pointer; font-weight: 600; font-size: 15px; list-style: none; display: flex; justify-content: space-between; gap: 12px; }
+    details.faq summary::-webkit-details-marker { display: none; }
+    details.faq summary::after { content: '+'; font-family: var(--mono); color: var(--accent); }
+    details.faq[open] summary::after { content: '−'; }
+    details.faq p { color: var(--ink-2); font-size: 15px; margin-top: 10px; max-width: 64ch; }
+    .note { background: var(--bg-soft); border-left: 3px solid var(--accent); padding: 14px 16px; font-size: 14px; color: var(--ink-2); border-radius: 0 6px 6px 0; margin: 18px 0; max-width: 64ch; }
+    .btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--ink); color: var(--bg); font-weight: 600; font-size: 15px;
+      padding: 13px 22px; border-radius: 999px; border: none; cursor: pointer;
+      transition: opacity .15s ease;
+    }
+    .btn:hover { opacity: 0.86; text-decoration: none; }
+    .btn .arr { font-family: var(--mono); }
+    .btn-soft { background: var(--accent-soft); color: var(--accent); }
+    @media (max-width: 640px) {
+      nav.main { gap: 14px; font-size: 13px; }
+      footer.site .cols { gap: 24px; }
+    }
+  </style>
+</head>
+<body>
+  <header class="site">
+    <div class="wrap">
+      <a class="brand" href="/">
+        <span class="mark">
+          <svg viewBox="0 0 32 32" fill="none"><path d="M8 10h16M8 10v9a6 6 0 0 0 6 6h4a6 6 0 0 0 6-6v-9" stroke="#00d08a" stroke-width="3" stroke-linecap="round"/></svg>
+        </span>
+        Loom <small>ARC ENTRY</small>
+      </a>
+      <nav class="main">
+        <a href="/solana-to-arc">Solana</a>
+        <a href="/ethereum-to-arc">Ethereum</a>
+        <a href="/security">Security</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <slot />
+  </main>
+
+  <footer class="site">
+    <div class="wrap">
+      <div class="cols">
+        <div>
+          <h4>Routes</h4>
+          <ul>
+            <li><a href="/solana-to-arc">Solana to Arc</a></li>
+            <li><a href="/ethereum-to-arc">Ethereum to Arc</a></li>
+            <li><a href="/security">Security model</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Official</h4>
+          <ul>
+            <li><a href="https://bridge.usdc.com" rel="noopener" target="_blank">Circle USDC Bridge</a></li>
+            <li><a href="https://docs.arc.io" rel="noopener" target="_blank">Arc docs</a></li>
+            <li><a href="https://arc.io" rel="noopener" target="_blank">arc.io</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Project</h4>
+          <ul>
+            <li><a href="https://github.com/respectevery01/loomonarc" rel="noopener" target="_blank">Source code</a></li>
+            <li>Independent. Open source.</li>
+          </ul>
+        </div>
+      </div>
+      <p class="fine">
+        Loom is an independent, non-custodial frontend. Transfers execute through Circle's official CCTP contracts; Loom never holds, routes, or touches funds, and charges no fee.
+        Loom is not affiliated with, endorsed by, or connected to Circle Internet Group or the Arc network. Nothing here is financial advice. Crypto assets carry risk.
+      </p>
+    </div>
+  </footer>
+</body>
+</html>
