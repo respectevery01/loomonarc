@@ -83,7 +83,7 @@ import Base from '../layouts/Base.astro';
   (function () {
     var ARC_DOMAIN = 26;
     var CFG = {
-      8453:    { name: 'Base',      domain: 6,  usdc: '0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913', messenger: '0x28b5a0e9C621a5BadaA536219b3a228C8168cf5d', router: '0x44e7d4146ef5e44ecfeeed81b114b08f62186ebf', live: false, iris: 'https://iris-api.circle.com', ex: 'https://basescan.org', arcex: '' },
+      8453:    { name: 'Base',      domain: 6,  usdc: '0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913', messenger: '0x28b5a0e9C621a5BadaA536219b3a228C8168cf5d', router: '0x44e7d4146ef5e44ecfeeed81b114b08f62186ebf', live: true, iris: 'https://iris-api.circle.com', ex: 'https://basescan.org', arcex: 'https://arc-scan.org' },
       11155111:{ name: 'Sepolia',  domain: 0,  usdc: '0x1c7d4b196cb0c7b01d743fbc6116a902379c7238', messenger: '0x8fe6b999dc680ccfdd5bf7eb0974218be2542daa', router: '0xfd03027057da547b491e100e9dbf3b690fb206b7', iris: 'https://iris-api-sandbox.circle.com', ex: 'https://sepolia.etherscan.io', arcex: 'https://testnet.arcscan.app', test: true }
     };
     var st = { addr: null, chainId: null, cfg: null, bal: 0, allow: 0, amount: 10, netFeeHi: null, phase: 'idle', burnHash: null };
